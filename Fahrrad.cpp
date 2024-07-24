@@ -1,18 +1,7 @@
-// file:	Fahrrad.cpp
-// author:	Abd Alhadi Kamrddin
-// date:	01.11.2023
-
 #include "Fahrrad.h"
 #include <cmath>
 
-
-Fahrrad::Fahrrad()
-	: Fahrzeug()
-{
-}
-
-Fahrrad::Fahrrad(const string sName, const double dMaxGeschwindigkeit)
-	: Fahrzeug(sName, dMaxGeschwindigkeit)
+Fahrrad::Fahrrad() : Fahrzeug()
 {
 }
 
@@ -20,20 +9,21 @@ Fahrrad::~Fahrrad()
 {
 }
 
-
+Fahrrad::Fahrrad(string Name, double MaxGeschwindigkeit) : Fahrzeug(Name,MaxGeschwindigkeit)
+{
+}
+/**
+ *
+ * @return
+ *
+ * @brief Diese Formel dient der Berechnung der Geschwindigkeitsabnahme (Abnahme um 10%)
+ * Ab 12 km/h beträgt die Geschwindigkeit bleibt die Geschwindigkeit konstant
+ */
 double Fahrrad::dGeschwindigkeit() const
 {
-	// Anzahl voller 20km-Abschnitte
-	int iFull20km = (int)(p_dGesamtStrecke / 20);
+	double a = p_dGesamtStrecke / 20; //pro 20km 
+	double b = a; // nur bei ganzen Zahlen hochrechnen
+	double dGeschwindigkeitAkt = p_dMaxGeschwindigkeit * pow(0.9, b);//Formel fuer Geschwindigkeitsabnahme
 
-	// Verringerung der Geschwindigkeit um 10% mit jedem vollen 20km-Abschnitt
-	// Also 0.9 zur Potenz der vollen 20km-Abschnitte mal die Maximalgeschwindigkeit
-	double dSpeed = pow(0.9, iFull20km) * p_dMaxGeschwindigkeit;
-
-	// Mindestens 12km/h beibehalten
-	if (dSpeed < 12)
-		dSpeed = 12;
-	
-	return dSpeed;
+	return (dGeschwindigkeitAkt >= 12) ? dGeschwindigkeitAkt : 12; //minimal 12 km/h
 }
-
